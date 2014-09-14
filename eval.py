@@ -16,10 +16,12 @@ class Classify:
             else:
                 return 1
             
-        lis = re.sub('([\d\.\'\"]+?)|(@[^\s]+?)','', line.replace(',',' ')).lower().split()
+        lis = re.sub('[^#\sa-zA-Z]+?', '', re.sub('@[^\s]+?','', line.replace(',',' '))).lower().split()
         P_pos = 1
         P_neg = 1
         for x in lis:
-            P_pos *= score(self.pos, x)
-            P_neg *= score(self.neg, x)
+            C_pos = score(self.pos, x)
+            C_neg = score(self.neg, x)
+            P_pos *= C_pos  
+            P_neg *= C_neg 
         return P_pos > P_neg

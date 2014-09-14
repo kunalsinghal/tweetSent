@@ -1,22 +1,31 @@
 import re
 import sys
-
+from nltk.corpus import stopwords
 f = file('training.csv', 'r')
 
 neg = {}
 pos = {}
 
+stop = set(stopwords.words('english')+ ['im'])
+
+def check(x):
+    if x in stop:
+        return False
+    return True
+    
 for line in f:
     if line[1] == '0':
         hash = neg
     else:
         hash = pos
-    lis = re.sub('([\d\.\'\"]+?)|(@[^\s]+?)','', line.replace(',',' ')).lower().split()
+    lis = re.sub('[^#\sa-zA-Z]+?', '', re.sub('@[^\s]+?','', line.replace(',',' '))).lower().split()
+
     for x in lis:
-        if x in hash:
-            hash[x] += 1
-        else:
-            hash[x] = 1
+        if check(x):
+            if x in hash:
+                hash[x] += 1
+            else:
+                hash[x] = 1
 
 f.close()
 

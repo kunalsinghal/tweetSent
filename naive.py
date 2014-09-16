@@ -18,7 +18,7 @@ for line in f:
         hash = neg
     else:
         hash = pos
-    lis = re.sub('[^#\sa-zA-Z]+?', '', re.sub('@[^\s]+?','', line.replace(',',' '))).lower().split()
+    lis = re.sub('[^#\sa-zA-Z]+', '', re.sub('@[^\s]+','', line.replace(',',' '))).lower().split()
 
     for x in lis:
         if check(x):
